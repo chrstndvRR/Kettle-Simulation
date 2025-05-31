@@ -1,22 +1,132 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Thermodynamics Kettle Simulator</title>
+  <title>Advanced Thermal Simulator</title>
   <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Embedded critical CSS */
+    .kettle-body {
+      position: relative;
+      width: 180px;
+      height: 200px;
+      background: linear-gradient(145deg, #d0d0d0, #f0f0f0);
+      border-radius: 50% 50% 30% 30%;
+      margin: 0 auto;
+      box-shadow: 
+        inset -5px -5px 15px rgba(0,0,0,0.1),
+        5px 5px 15px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+    .kettle-spout {
+      position: absolute;
+      right: -20px;
+      top: 60px;
+      width: 40px;
+      height: 15px;
+      background: linear-gradient(to right, #b0b0b0, #d0d0d0);
+      border-radius: 0 50% 50% 0;
+      z-index: 2;
+    }
+    .kettle-handle {
+      position: absolute;
+      left: -25px;
+      top: 70px;
+      width: 20px;
+      height: 80px;
+      background: linear-gradient(to right, #909090, #b0b0b0);
+      border-radius: 10px;
+      box-shadow: -3px 3px 5px rgba(0,0,0,0.1);
+      z-index: 1;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Kettle Thermodynamics Simulator</h1>
-    <div id="kettle">
-      <canvas id="waterCanvas"></canvas> <!-- Dynamic water/ice/steam -->
+  <div class="main-container">
+    <div class="sim-container">
+      <!-- Warning Indicators -->
+      <div class="warning-indicator freeze-warning">FREEZING!</div>
+      <div class="warning-indicator boil-warning">BOILING!</div>
+
+      <!-- Control Panel -->
+      <div class="control-panel">
+        <div id="cooler" class="cooler-pad">
+          <div class="cooler-grill"></div>
+          <div class="cooler-label">COOL</div>
+        </div>
+        <div id="heater" class="heater-pad">
+          <div class="heater-coils"></div>
+          <div class="heater-label">HEAT</div>
+        </div>
+      </div>
+
+      <!-- Enhanced Kettle -->
+      <div class="kettle">
+        <div class="kettle-body">
+          <div class="kettle-reflection"></div>
+          <div id="water" class="water-fill"></div>
+          <div id="ice" class="ice-fill"></div>
+          <canvas id="bubbles" class="bubble-canvas"></canvas>
+        </div>
+        <div class="kettle-spout"></div>
+        <div class="kettle-lid"></div>
+        <div class="kettle-handle"></div>
+        <div class="kettle-base"></div>
+        <canvas id="steam" class="steam-canvas"></canvas>
+      </div>
+
+      <!-- Thermometer -->
+      <div class="thermometer-pro">
+        <div class="thermo-tube">
+          <div id="thermo-fill" class="thermo-liquid"></div>
+        </div>
+        <div class="thermo-bulb"></div>
+        <div class="thermo-scale">
+          <span>-10°</span><span>0°</span><span>50°</span><span>100°</span><span>120°</span>
+        </div>
+      </div>
+
+      <!-- Data Tables -->
+      <div class="data-panel">
+        <table class="temp-table">
+          <caption>Temperature Readings</caption>
+          <thead>
+            <tr>
+              <th>Celsius (°C)</th>
+              <th>Fahrenheit (°F)</th>
+              <th>Kelvin (K)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td id="celsius-td">20.0</td>
+              <td id="fahrenheit-td">68.0</td>
+              <td id="kelvin-td">293.2</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <table class="thermo-table">
+          <caption>Thermodynamic Properties</caption>
+          <thead>
+            <tr>
+              <th>Volumetric Expansion</th>
+              <th>Thermal Stress</th>
+              <th>Thermal Work</th>
+              <th>Entropy</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td id="expansion-td">0%</td>
+              <td id="stress-td">0 kPa</td>
+              <td id="work-td">0 J</td>
+              <td id="entropy-td">0 J/K</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="controls">
-      <button id="heatBtn">Heat</button>
-      <button id="coolBtn">Cool</button>
-      <input type="range" id="tempSlider" min="-10" max="120" value="20">
-      <span id="tempDisplay">20°C</span>
-    </div>
-    <canvas id="graphCanvas"></canvas> <!-- Temperature vs. time graph -->
   </div>
   <script src="script.js"></script>
 </body>
